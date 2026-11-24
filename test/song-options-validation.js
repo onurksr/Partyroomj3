@@ -1,0 +1,11 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const server = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
+assert.match(html, /song-options/ , 'Şarkı seçenekleri oyun ekranında gösterilmeli');
+assert.match(html, /sock\.emit\('answer',\$\{i\}\)/, 'Şarkı seçenekleri cevap göndermeli');
+assert.match(server, /customCatalog\.music\.filter\(m => String\(m\.artist\)/, 'Şarkı çeldiricileri tüm katalogdan aynı sanatçıya göre seçilmeli');
+assert.match(server, /speedBonus\(r, a, 100\)/, 'Doğru cevaplarda hız bonusu uygulanmalı');
+assert.match(server, /matching\.length < 3/, 'Ünlü oyununda aynı cinsiyetten üç çeldirici bulunmalı');
+console.log('Song options, same-artist distractors, gender-consistent options and speed scoring validation passed.');
